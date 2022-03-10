@@ -1,8 +1,12 @@
 <template>
-  <div class="home">
+  <div class="p-3 bg-gray-100">
     <InfiniteScroll>
-      <ArticlesList> <ArticleItem></ArticleItem></ArticlesList>
-      {{ articles }}
+      <ArticleItem
+        class="mb-3"
+        v-for="article in articles"
+        :key="article.id"
+        :article="article"
+      ></ArticleItem>
       {{ loadingArticles }}
     </InfiniteScroll>
   </div>
@@ -10,7 +14,7 @@
 
 <script>
 import InfiniteScroll from "@/components/InfiniteScroll.vue";
-import ArticlesList from "@/components/ArticlesList.vue";
+// import ArticlesList from "@/components/ArticlesList.vue";
 import ArticleItem from "@/components/ArticleItem.vue";
 import { userArticlesStore } from "@/store/articles";
 import { computed, ref } from "@vue/runtime-core";
@@ -18,7 +22,7 @@ export default {
   name: "HomeView",
   components: {
     InfiniteScroll,
-    ArticlesList,
+    // ArticlesList,
     ArticleItem,
   },
   setup() {

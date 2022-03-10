@@ -7,10 +7,11 @@ export const userArticlesStore = defineStore("articles", {
   }),
   actions: {
     async getArticles(page = 1, pageSize = 10) {
-      this.articles = await axios.get(
+      const response = await axios.get(
         `https://frontend-engineering-test-api.netlify.app/.netlify/functions/articles`,
         { params: { page, pageSize } }
       );
+      this.articles = response.data;
     },
   },
 });
