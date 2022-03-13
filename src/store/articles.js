@@ -27,7 +27,7 @@ export const userArticlesStore = defineStore("articles", {
       return response.data;
     },
     async loadNextPage() {
-      const articles = await this.getArticles(this.page + 1, this.pageSize);
+      const articles = await this.getArticles(this.page, this.pageSize);
       if (articles.length) {
         this.articles = this.articles.concat(articles);
         this.page++;
