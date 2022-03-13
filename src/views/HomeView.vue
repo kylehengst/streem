@@ -1,13 +1,20 @@
 <template>
-  <div class="p-3 bg-gray-100">
-    <InfiniteScroll>
-      <ArticleItem
-        class="mb-3"
-        v-for="article in articles"
-        :key="article.id"
-        :article="article"
-      ></ArticleItem>
-      {{ loadingArticles }}
+  <div class="flex flex-col overflow-hidden">
+    <InfiniteScroll
+      @end="onScrollEnd"
+      class="p-3 overflow-auto lg:w-1/2 xl:w-1/3"
+    >
+      <template v-for="(article, articleIndex) in articles" :key="article.id">
+        <ArticleItem class="mb-3" :article="article"></ArticleItem>
+        <ArticleDivider
+          v-if="
+            !((articleIndex + 1) % 10) && articleIndex + 1 != articles.length
+          "
+        >
+          {{ (articlesPageSize + articleIndex + 1) / articlesPageSize }}
+        </ArticleDivider>
+      </template>
+      <LoadingAnimation :loading="articlesLoading"></LoadingAnimation>
     </InfiniteScroll>
   </div>
 </template>
@@ -16,25 +23,37 @@
 import InfiniteScroll from "@/components/InfiniteScroll.vue";
 // import ArticlesList from "@/components/ArticlesList.vue";
 import ArticleItem from "@/components/ArticleItem.vue";
+import ArticleDivider from "@/components/ArticleDivider.vue";
+import LoadingAnimation from "@/components/LoadingAnimation.vue";
 import { userArticlesStore } from "@/store/articles";
-import { computed, ref } from "@vue/runtime-core";
+import { storeToRefs } from "pinia";
 export default {
   name: "HomeView",
   components: {
+    LoadingAnimation,
     InfiniteScroll,
-    // ArticlesList,
     ArticleItem,
+    ArticleDivider,
   },
   setup() {
-    const loadingArticles = ref(false);
     const articlesStore = userArticlesStore();
-    loadingArticles.value = true;
-    articlesStore.getArticles().finally(() => {
-      loadingArticles.value = false;
-    });
+    const {
+      articles,
+      loading: articlesLoading,
+      page: articlesPage,
+      pageSize: articlesPageSize,
+    } = storeToRefs(articlesStore);
+    articlesStore.loadNextPage();
     return {
-      loadingArticles,
-      articles: computed(() => articlesStore.articles),
+      articles,
+      articlesLoading,
+      articlesPage,
+      articlesPageSize,
+      onScrollEnd: () => {
+        console.log("end");
+        if (articlesLoading.value) return;
+        articlesStore.loadNextPage();
+      },
     };
   },
 };

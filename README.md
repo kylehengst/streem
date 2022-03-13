@@ -1,5 +1,7 @@
 # streem
 
+Show an infinite scroll of articles
+
 ## Project setup
 ```
 yarn install
