@@ -3,6 +3,9 @@
 </template>
 
 <style>
+:root {
+  color-scheme: light;
+}
 body {
   overscroll-behavior: none;
 }

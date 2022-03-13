@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-center h-12">
+  <div class="flex justify-center h-8">
     <img v-show="loading" class="h-4 w-24" src="../assets/loading.svg" alt="" />
   </div>
 </template>

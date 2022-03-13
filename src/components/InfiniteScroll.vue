@@ -11,7 +11,7 @@ export default {
   props: {
     buffer: {
       type: Number,
-      default: 0,
+      default: 30,
     },
   },
   setup(props, { emit }) {
@@ -22,7 +22,9 @@ export default {
       //   evt.target.offsetHeight
       // );
       if (
-        evt.target.scrollHeight - evt.target.scrollTop - props.buffer <=
+        evt.target.scrollHeight -
+          Math.round(evt.target.scrollTop) -
+          props.buffer <=
         evt.target.offsetHeight
       ) {
         emit("end");
