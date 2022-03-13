@@ -8,6 +8,7 @@ export const userArticlesStore = defineStore("articles", {
     loading: false,
     articles: [],
     end: false,
+    lastPage: 0,
   }),
   actions: {
     async getArticles(page, pageSize) {

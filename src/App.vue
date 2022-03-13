@@ -3,8 +3,11 @@
 </template>
 
 <style>
+body {
+  overscroll-behavior: none;
+}
 #app {
-  @apply bg-gray-100;
+  @apply bg-gray-300;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -16,5 +19,6 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  overscroll-behavior: none;
 }
 </style>

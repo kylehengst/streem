@@ -1,8 +1,8 @@
 <template>
-  <div class="flex flex-col overflow-hidden">
+  <div class="flex flex-col overflow-hidden p-3 flex-1">
     <InfiniteScroll
       @end="onScrollEnd"
-      class="p-3 overflow-auto lg:w-1/2 xl:w-1/3"
+      class="bg-gray-100 rounded p-3 overflow-auto lg:w-1/2 xl:w-1/3 flex-1"
     >
       <template v-for="(article, articleIndex) in articles" :key="article.id">
         <ArticleItem class="mb-3" :article="article"></ArticleItem>
