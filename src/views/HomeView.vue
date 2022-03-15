@@ -1,8 +1,10 @@
 <template>
   <div class="flex flex-col overflow-hidden p-3 flex-1">
-    <InfiniteScroll
-      @end="onScrollEnd"
+    <div
       class="bg-gray-100 rounded p-3 overflow-auto lg:w-1/2 xl:w-1/3 flex-1"
+      v-iscroll
+      iscroll-offset="30"
+      @iscroll-end="onScrollEnd"
     >
       <template v-for="(article, articleIndex) in articles" :key="article.id">
         <ArticleItem class="mb-3" :article="article"></ArticleItem>
@@ -15,12 +17,13 @@
         </ArticleDivider>
       </template>
       <LoadingAnimation :loading="articlesLoading"></LoadingAnimation>
-    </InfiniteScroll>
+    </div>
   </div>
 </template>
 
 <script>
-import InfiniteScroll from "@/components/InfiniteScroll.vue";
+// import InfiniteScroll from "@/components/InfiniteScroll.vue";
+import { iscroll } from "@/infinite-scroll";
 // import ArticlesList from "@/components/ArticlesList.vue";
 import ArticleItem from "@/components/ArticleItem.vue";
 import ArticleDivider from "@/components/ArticleDivider.vue";
@@ -29,9 +32,12 @@ import { userArticlesStore } from "@/store/articles";
 import { storeToRefs } from "pinia";
 export default {
   name: "HomeView",
+  directives: {
+    iscroll,
+  },
   components: {
     LoadingAnimation,
-    InfiniteScroll,
+    // InfiniteScroll,
     ArticleItem,
     ArticleDivider,
   },
