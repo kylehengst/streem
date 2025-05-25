@@ -54,30 +54,50 @@
   </article>
 </template>
 
-<script>
-import { computed, ref } from "vue";
+<script lang="ts" setup>
+import { computed, ref, defineProps, Ref, ComputedRef } from "vue";
 import ArticleDetails from "./ArticleDetails.vue";
 import ArticleExcerpt from "./ArticleExcerpt.vue";
-export default {
-  components: {
-    ArticleDetails,
-    ArticleExcerpt,
-  },
-  props: {
-    article: {
-      type: Object,
-      default: () => {
-        return {};
-      },
-    },
-  },
-  setup(props) {
-    const showMore = ref(false);
-    const computedExcerpts = computed(() => {
-      if (showMore.value) return props.article.excerpts;
-      return props.article.excerpts.slice(0, 1);
-    });
-    return { showMore, computedExcerpts };
-  },
-};
+
+// Define interfaces for props
+interface ArticleSource {
+  logo_url: string;
+  name: string;
+}
+
+interface ArticleAuthor {
+  name: string;
+}
+
+interface Excerpt {
+  text: string;
+  keywords: string[]; // Assuming keywords is an array of strings based on usage
+}
+
+interface Article {
+  url: string;
+  title: string;
+  source: ArticleSource;
+  published_at: string; // Consider Date if applicable, but string is common from APIs
+  author: ArticleAuthor;
+  word_count: number;
+  excerpts: Excerpt[];
+}
+
+// Define props
+const props = defineProps<{
+  article: Article;
+}>();
+
+const showMore: Ref<boolean> = ref(false);
+
+const computedExcerpts: ComputedRef<Excerpt[]> = computed(() => {
+  if (!props.article || !props.article.excerpts) {
+    return [];
+  }
+  if (showMore.value) {
+    return props.article.excerpts;
+  }
+  return props.article.excerpts.slice(0, 1);
+});
 </script>
